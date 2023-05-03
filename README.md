@@ -12,9 +12,10 @@ L’objectif de ce projet est d'implanter, peupler puis exploiter une base de do
 
 ## Planning
 
-Date | Rendu
+Date | Evenement
 -|-
-2023-05-19 18:00 | Fichier `parcoursub_db_create.sql` sur l'ENT<br>Implémentation BDD dans schéma `parcoursup` (à créer) sur la base `pg_sae204_e13`
+2023-05-03 16:45 | Début de la SAE
+2023-05-19 18:00 | Fichier `parcoursub_db_create.sql` à rendre sur l'ENT<br>Implémentation BDD dans schéma `parcoursup` (à créer) sur la base `pg_sae204_e13`
 
 ## Notes
 
