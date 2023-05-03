@@ -14,9 +14,10 @@ L’objectif de ce projet est d'implanter, peupler puis exploiter une base de do
 
 Date | Evenement | Fait
 -|-|-
-2023-05-03 16:45 | Début de la SAE | - [X]
-2023-05-19 18:00 | Fichier `parcoursub_db_create.sql` à rendre sur l'ENT<br>Implémentation BDD dans schéma `parcoursup` (à créer) sur la base `pg_sae204_e13` | - [ ]
+2023-05-03 16:45 | Début de la SAE | <ul><li>- [x]</li>
+2023-05-19 18:00 | Fichier `parcoursub_db_create.sql` à rendre sur l'ENT<br>Implémentation BDD dans schéma `parcoursup` (à créer) sur la base `pg_sae204_e13` | <ul><li>- [ ]</li>
 
 ## Notes
 
 * Utiliser `MAX(NBCAR(C2:C13665))` *par exemple* pour trouver le nombre de caractères maximum d'une colonne (ici C)
+* Mettre les contraintes juste après le `create table`
