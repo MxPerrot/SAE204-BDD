@@ -2,7 +2,7 @@
 
 SAÉ 2.04 Exploitation d'une base de données
 
-L’objectif de ce projet est de faire implanter, peupler puis exploiter une base de données réaliste
+L’objectif de ce projet est d'implanter, peupler puis exploiter une base de données réaliste
 
 ## Collaborateurs
 
@@ -15,3 +15,7 @@ L’objectif de ce projet est de faire implanter, peupler puis exploiter une bas
 Date | Rendu
 -|-
 2023-05-19 18:00 | Fichier `parcoursub_db_create.sql` sur l'ENT<br>Implémentation BDD dans schéma `parcoursup` (à créer) sur la base `pg_sae204_e13`
+
+## Notes
+
+* Utiliser `MAX(NBCAR(C2:C13665))` *par exemple* pour trouver le nombre de caractères maximum d'une colonne (ici C)
