@@ -34,18 +34,18 @@ create schema parcoursup;
 **********************/
 
 create table _formation (
-    cod_aff_form 					varchar(6)		not null,
-    filiere_libelle_detaille 		varchar(335),
-    coordonnees_gps 				varchar(20),
+    cod_aff_form 					varchar(6)	not null,
+    filiere_libelle_detaille 				varchar(335),
+    coordonnees_gps 					varchar(20),
     list_com 						varchar(44),
     concours_communs_banque_epreuve varchar(98),
     url_formation 					varchar(91),
-    tri 							varchar(25),
+    tri 						varchar(25),
     filiere_id                      integer,
     academie_nom                    varchar(30),
     etablissement_code_uai          varchar(22),
     commune_nom                     varchar(20),
-    session_annee                   varchar(),      -- Spécifier taille varchar
+    session_annee                   varchar(),      					-- Spécifier taille varchar
 
     constraint pk_formation primary key (cod_aff_form)
 );
@@ -53,7 +53,7 @@ create table _formation (
 
 
 create table _type_bac (
-    type_bac	varchar 	not null(20),			-- Spécifier taille varchar
+    type_bac	varchar(18) 	not null(20),			
 	
     constraint pk_type_bac primary key (type_bac)
 );
@@ -81,7 +81,7 @@ create table _departement (
 
 
 create table _region (
-    region_nom varchar(26) not null, 				-- Spécifier taille varchar
+    region_nom varchar(26) not null,
 	
     constraint pk_region primary key (region_nom)
 );
