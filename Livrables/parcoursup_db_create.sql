@@ -142,8 +142,8 @@ create table _regroupement (
     cod_aff_form            varchar(6),
     session_annee           integer,
 
-    constraint pk_regroupement primary key (libelle_regroupement);
-)
+    constraint pk_regroupement primary key (libelle_regroupement)
+);
 
 create table _rang_dernier_appele_selon_regroupement (
     rang_dernier_appele     integer not null,
