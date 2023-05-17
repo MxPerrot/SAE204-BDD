@@ -133,7 +133,7 @@ create table _session (
     libelle_regroupement    varchar(68),
     cod_aff_form            varchar(6),
     type_bac                varchar(20),
-    libelle_mention         varchar(255)        
+    libelle_mention         varchar(255),        
     constraint pk_session primary key (session_annee)
 );
 
