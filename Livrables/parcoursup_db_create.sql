@@ -167,7 +167,7 @@ create table _mention_bac (
 );
 
 create table _admissions_generalites (
-    selectivite                 varchar() not null,
+    selectivite                 varchar(25) not null,
     capacite                    integer,
     effectif_total_candidats    integer,
     effectif_total_candidates   integer,
