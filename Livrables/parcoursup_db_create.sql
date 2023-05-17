@@ -256,6 +256,4 @@ Clefs étrangères de _regroupement
 
 constraint fk_regroupement  foreign key _regroupement (cod_aff_form) _formation (cod_aff_form);
 constraint fk2_regroupement foreign key _regroupement (session_annee) _session (session_annee);
-
-    constraint pk_formation primary key (cod_aff_form)
 );
