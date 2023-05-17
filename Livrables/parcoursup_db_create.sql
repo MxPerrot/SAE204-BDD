@@ -22,6 +22,10 @@ drop schema if exists parcoursup cascade;
 create schema parcoursup;
 set schema 'parcoursup';
 
+/*
+Table de _formation 
+*/
+
 create table _formation (
     cod_aff_form 					varchar(6)		not null,
     filiere_libelle_detaille 		varchar(335),
@@ -39,7 +43,9 @@ create table _formation (
     constraint pk_formation primary key (cod_aff_form)
 );
 
-
+/*
+Table de _type_bac
+*/
 
 create table _type_bac (
     type_bac	    varchar(20) 	not null,
@@ -49,7 +55,9 @@ create table _type_bac (
     constraint pk_type_bac primary key (type_bac)
 );
 
-
+/*
+Table de _commune
+*/
 
 create table _commune (
     commune_nom 		varchar(20)	not null,
@@ -59,7 +67,9 @@ create table _commune (
     constraint pk_commune primary key (departement_code, cod_aff_form)
 );
 
-
+/*
+Table de _departement
+*/
 
 create table _departement (
     departement_code 	varchar(3) 	not null,
@@ -70,7 +80,9 @@ create table _departement (
     constraint pk_departement primary key (departement_code)
 );
 
-
+/*
+Table de _region
+*/
 
 create table _region (
     region_nom varchar(26) not null, 				
@@ -78,7 +90,9 @@ create table _region (
     constraint pk_region primary key (region_nom)
 );
 
-
+/*
+Table de _admissions_selon_type_neo_bac
+*/
 
 create table _admissions_selon_type_neo_bac (
     effectif_candidat_neo_bac_classes	integer not null,
@@ -89,6 +103,9 @@ create table _admissions_selon_type_neo_bac (
     constraint pk_admissions_selon_type_neo_bac	primary key (cod_aff_form, type_bac, session_annee)
 );
 
+/*
+Table de _academie
+*/
 
 create table _academie (
     academie_nom	varchar(30),
@@ -96,7 +113,9 @@ create table _academie (
     constraint pk_academie primary key (academie_nom)
 );
 
-
+/*
+Table de _etablissement
+*/
 
 create table _etablissement (
     etablissement_code_uai 	varchar(22),
@@ -106,7 +125,9 @@ create table _etablissement (
     constraint pk_etablissement primary key (etablissement_code_uai)
 );
 
-
+/*
+Table de _filiere
+*/
 
 create table _filiere (
     filiere_id 						integer 		not null,
@@ -117,6 +138,9 @@ create table _filiere (
     constraint pk_filiere primary key (filiere_id)
 );
 
+/*
+Table de _session
+*/
 
 create table _session (
     session_annee           integer    not null,
@@ -127,6 +151,11 @@ create table _session (
     constraint pk_session primary key (session_annee)
 );
 
+
+/*
+Table de _regroupement
+*/
+
 create table _regroupement (
     libelle_regroupement    varchar(68) not null,
     cod_aff_form            varchar(6),
@@ -134,6 +163,10 @@ create table _regroupement (
 
     constraint pk_regroupement primary key (libelle_regroupement)
 );
+
+/*
+Table de _rang_dernier_appele_selon_regroupement
+*/
 
 create table _rang_dernier_appele_selon_regroupement (
     rang_dernier_appele     integer not null,
@@ -143,6 +176,10 @@ create table _rang_dernier_appele_selon_regroupement (
     constraint pk_rang_dernier_appele_selon_regroupement primary key (cod_aff_form, session_annee, libelle_regroupement)
 );
 
+/*
+Table de _effectif_selon_mention
+*/
+
 create table _effectif_selon_mention (
     effectif_admis_neo_bac_selon_mention   integer  not null,
     libelle_mention                        varchar(255),
@@ -151,10 +188,18 @@ create table _effectif_selon_mention (
     constraint pk_effectif_admis_neo_bac_selon_mention primary key (libelle_mention, cod_aff_form, session_annee)
 );
 
+/*
+Table de _mention_bac
+*/
+
 create table _mention_bac (
     libelle_mention     varchar(255),
     constraint pk_mention_bac   primary key (libelle_mention)
 );
+
+/*
+Table de _admissions_generalites
+*/
 
 create table _admissions_generalites (
     selectivite                 varchar(25) not null,
