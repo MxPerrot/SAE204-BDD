@@ -7,19 +7,6 @@
 * Timéo Tribotté & Maxime Perrot, I1E1
 */
 
-
-
-/********
-* Notes *
-********/
-
-/*
-* On évite de mettre les mdp dans des gits publics !
-* Mail du prof : hamzaamara@univ-rennes1.fr       
-*/
-
-
-
 /*********************
 * Création du schéma *
 *********************/
@@ -27,11 +14,13 @@
 drop schema if exists parcoursup; -- A verifier, la syntaxe est peut-être mauvaise
 create schema parcoursup;
 
-
-
 /**********************
 * Création des tables *
 **********************/
+
+drop schema if exists parcoursup cascade; 
+create schema parcoursup;
+set schema 'parcoursup';
 
 create table _formation (
     cod_aff_form 					varchar(6)		not null,
@@ -45,7 +34,7 @@ create table _formation (
     academie_nom                    varchar(30),
     etablissement_code_uai          varchar(22),
     commune_nom                     varchar(20),
-    session_annee                   varchar(4),
+    session_annee                   integer,
 
     constraint pk_formation primary key (cod_aff_form)
 );
@@ -65,8 +54,9 @@ create table _type_bac (
 create table _commune (
     commune_nom 		varchar(20)	not null,
     departement_code 	varchar(3) 	not null,
+    cod_aff_form      varchar(6),
 	
-    constraint pk_commune primary key (commune_nom, departement_code)
+    constraint pk_commune primary key (departement_code, cod_aff_form)
 );
 
 
@@ -94,7 +84,7 @@ create table _admissions_selon_type_neo_bac (
     effectif_candidat_neo_bac_classes	integer not null,
     cod_aff_form                        varchar(6),
     type_bac                            varchar(20),
-    session_annee                       varchar(4),
+    session_annee                       integer,
 	
     constraint pk_admissions_selon_type_neo_bac	primary key (cod_aff_form, type_bac, session_annee)
 );
@@ -129,7 +119,7 @@ create table _filiere (
 
 
 create table _session (
-    session_annee           varchar(4)    not null,
+    session_annee           integer    not null,
     libelle_regroupement    varchar(68),
     cod_aff_form            varchar(6),
     type_bac                varchar(20),
@@ -176,7 +166,6 @@ create table _admissions_generalites (
     constraint pk_admissions_generalites primary key (cod_aff_form, session_annee)
 );
 
-
 /**********************
 * Création des clefs étrangères *
 **********************/
@@ -185,75 +174,63 @@ create table _admissions_generalites (
 Clefs étrangères de -formation 
 */
 
-constraint fk_formation  foreign key _formation (filiere_id)  REFERENCES _filiere (filiere_id);
-constraint fk2_formation foreign key _formation (academie_nom) REFERENCES _academie (academie_nom);
-constraint fk3_formation foreign key _formation (etablissement_code_uai) REFERENCES _etablissement (etablissement_code_uai);
-constraint fk4_formation foreign key _formation (commune_nom) REFERENCES _commune (commune_nom);
-constraint fk5_formation foreign key _formation (session_annee) REFERENCES _session (session_annee);
-/*
-+ associations vers un losange
-*/
+alter table _formation  add constraint fk_formation_filiere foreign key (filiere_id)  REFERENCES _filiere (filiere_id);
+alter table _formation  add constraint fk_formation_academie foreign key (academie_nom) REFERENCES _academie (academie_nom);
+alter table _formation  add constraint fk_formation_etablissement foreign key (etablissement_code_uai) REFERENCES _etablissement (etablissement_code_uai);
+alter table _formation  add constraint fk_formation_session foreign key (session_annee) REFERENCES _session (session_annee);
 
 /*
 Clefs étrangères de _departement 
 */
 
-constraint fk_departement foreign key _departement (commune_nom) REFERENCES _commune (commune_nom);
-constraint fk2_departement foreign key _departement (region_nom) REFERENCES _region (region_nom);
+alter table _departement add constraint fk_departement_region foreign key (region_nom) REFERENCES _region (region_nom);
 
 /*
 Clefs étrangères de _admissions_selon_type_neo_bac
 */
 
-constraint fk1_admissions_selon_type_neo_bac foreign key _admissions_selon_type_neo_bac (cod_aff_form) REFERENCES _formation (cod_aff_form);
-constraint fk1_admissions_selon_type_neo_bac foreign key _admissions_selon_type_neo_bac (type_bac) REFERENCES _type_bac (type_bac);
-constraint fk1_admissions_selon_type_neo_bac foreign key _admissions_selon_type_neo_bac (session_annee) REFERENCES _session (session_annee);
+alter table _admissions_selon_type_neo_bac add constraint fk_admissions_selon_type_neo_bac_formation foreign key (cod_aff_form) REFERENCES  _formation (cod_aff_form);
+alter table _admissions_selon_type_neo_bac add constraint fk_admissions_selon_type_neo_bac_type_bac foreign key (type_bac) REFERENCES   _type_bac (type_bac);
+alter table _admissions_selon_type_neo_bac add constraint fk_admissions_selon_type_neo_bac_session_annee foreign key (session_annee) REFERENCES _session (session_annee);
 
 /*
 Clefs étrangères de _rang-dernier_appele-selon_regroupement
 */
 
-constraint fk_rang_dernier_appele_selon_regroupement foreign key _rang_dernier_appele_selon_regroupement (cod_aff_form) REFERENCES _formation (cod_aff_form);
-constraint fk_rang_dernier_appele_selon_regroupement foreign key _rang_dernier_appele_selon_regroupement (libelle_regroupement) REFERENCES _regroupement (libelle_regroupement);
-constraint fk_rang_dernier_appele_selon_regroupement foreign key _rang_dernier_appele_selon_regroupement (session_annee) REFERENCES _session (session_annee);
+alter table _rang_dernier_appele_selon_regroupement add constraint fk_rang_dernier_appele_selon_regroupement_formation foreign key (cod_aff_form) REFERENCES _formation (cod_aff_form);
+alter table _rang_dernier_appele_selon_regroupement add constraint fk_rang_dernier_appele_selon_regroupement_regroupement foreign key (libelle_regroupement) REFERENCES _regroupement (libelle_regroupement);
+alter table _rang_dernier_appele_selon_regroupement add constraint fk_rang_dernier_appele_selon_regroupement_session foreign key (session_annee) REFERENCES _session (session_annee);
 
 /*
 Clefs étrangères de _effectif_selon_mention
 */
 
-constraint fk_effectif_selon_mention    foreign key _effectif_selon_mention (cod_aff_form) REFERENCES _formation (cod_aff_form);
-constraint fk2_effectif_selon_mention   foreign key _effectif_selon_mention (session_annee ) REFERENCES _session (session_annee);
-constraint fk3_effectif_selon_mention   foreign key _effectif_selon_mention (libelle_mention) REFERENCES _mention_bac (libelle_mention);
-
-/*
-Clefs étrangères de _admissions_generalites
-*/
-
-constraint fk_admissions_generalites    foreign key _admissions_generalites (cod_aff_form) REFERENCES _formation (cod_aff_form);
-constraint fk2_admissions_generalites   foreign key _admissions_generalites (session_annee) REFERENCES _session (session_annee);
-
+alter table _effectif_selon_mention add constraint fk_effectif_selon_mention_formation foreign key (cod_aff_form) REFERENCES _formation (cod_aff_form);
+alter table _effectif_selon_mention add constraint fk_effectif_selon_mention_session foreign key (session_annee ) REFERENCES _session (session_annee);
+alter table _effectif_selon_mention add constraint fk_effectif_selon_mention_mention_bac foreign key (libelle_mention) REFERENCES _mention_bac (libelle_mention);
 
 /*
 Clefs étrangères de _session
 */
 
-constraint fk_session   foreign key _session (cod_aff_form) REFERENCES _formation (cod_aff_form);
-constraint fk2_session  foreign key _session (libelle_mention) REFERENCES _mention_bac (libelle_mention);
-constraint fk3_session  foreign key _session (libelle_regroupement) REFERENCES _regroupement (libelle_regroupement);
-constraint fk4_session  foreign key _session (type_bac) REFERENCES _type_bac (type_bac);
+alter table _session add constraint fk_session_formation foreign key (cod_aff_form) REFERENCES _formation (cod_aff_form);
+alter table _session add constraint fk_session_mention_bac foreign key (libelle_mention) REFERENCES _mention_bac (libelle_mention);
+alter table _session add constraint fk_session_regroupement foreign key (libelle_regroupement) REFERENCES _regroupement (libelle_regroupement);
+alter table _session add constraint fk_session_type_bac foreign key (type_bac) REFERENCES _type_bac (type_bac);
+
 
 /*
 Clefs étrangères de _type_bac
 */
 
-constraint fk_type_bac  foreign key _type_bac (cod_aff_form) REFERENCES _formation (cod_aff_form);
-constraint fk2_type_bac foreign key _type_bac (session_annee) REFERENCES _session (session_annee);
-
+alter table _type_bac add constraint fk_type_bac_formation foreign key (cod_aff_form) REFERENCES _formation (cod_aff_form);
+alter table _type_bac add constraint fk_type_bac_session foreign key (session_annee) REFERENCES _session (session_annee);
 
 /*
 Clefs étrangères de _regroupement
 */
 
-constraint fk_regroupement  foreign key _regroupement (cod_aff_form) _formation (cod_aff_form);
-constraint fk2_regroupement foreign key _regroupement (session_annee) _session (session_annee);
+alter table _regroupement add constraint fk_regroupement_formation foreign key (cod_aff_form) REFERENCES _formation (cod_aff_form);
+alter table _regroupement add constraint fk_regroupement_session foreign key (session_annee) REFERENCES _session (session_annee);
+
 );
