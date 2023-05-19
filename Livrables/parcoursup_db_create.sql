@@ -71,7 +71,7 @@ create table _admissions_selon_type_neo_bac (
 	effectif_candidat_neo_bac_classes	integer not null,
 	cod_aff_form						varchar(6),
 	type_bac							varchar(20),
-	session_annee					integer,
+	session_annee						integer,
 	
 	constraint pk_admissions_selon_type_neo_bac	primary key (cod_aff_form, type_bac, session_annee)
 );
