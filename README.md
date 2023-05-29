@@ -22,3 +22,6 @@ Date | Evenement | Fait
 
 * Utiliser `MAX(NBCAR(C2:C13665))` *par exemple* pour trouver le nombre de caractères maximum d'une colonne (ici C)
 * Mettre les contraintes juste après le `create table`
+* Pour le peuplement `insert into _filiere (filiere_libelle, ..., ...bis)
+*                       select distinct filiere_libelle, ...., ...bis)
+*                         from import_date;`
