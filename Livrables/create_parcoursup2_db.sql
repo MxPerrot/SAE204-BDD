@@ -1,3 +1,11 @@
+/*
+* Fichier : populate_parcoursup2_db.sql
+* Auteurs : Equipe sae204_e13, Maxime Perrot & Timéo Tribotté
+* Fini le 2023-05-31 à 17:21
+* 
+* Ce script peuple la base de données créée lors de la partie 1 de la SAE2.04
+*/
+
 -- Populate parcoursup2
 set schema 'parcoursup2';
 
@@ -147,7 +155,7 @@ WbImport -file=./fr-esr-parcoursup_2022.csv
                       list_com, tri, cod_aff_form, concours_communs_banques_epreuves, url_formation;
 --         -keyColumns=etablissement_code_UAI;
 
--- VIDER LES TABLES
+-- Vide les tables
 TRUNCATE TABLE _type_bac CASCADE;
 TRUNCATE TABLE _session CASCADE;
 TRUNCATE TABLE _regroupement CASCADE;
@@ -165,7 +173,7 @@ TRUNCATE TABLE _admissions_generalites CASCADE;
 TRUNCATE TABLE _academie CASCADE;
 
 
--- INSERER DANS LES TABLES
+-- Insere dans les tables
 /* _academie */
 insert into _academie (academie_nom)
   select distinct academie_nom
@@ -207,50 +215,24 @@ insert into _session (session_annee)
     from import_data;
     
 /* _mention_bac */
- 
-insert into _mention_bac (libelle_mention)
-  select distinct 'sans_information'
-    from import_data;
-    
-insert into _mention_bac (libelle_mention)
-  select distinct 'sans_mention'
-    from import_data;
-    
-insert into _mention_bac (libelle_mention)
-  select distinct 'mention_assez_bien'
-    from import_data;
-    
-insert into _mention_bac (libelle_mention)
-  select distinct 'mention_bien'
-    from import_data;
-    
-insert into _mention_bac (libelle_mention)
-  select distinct 'mention_tres_bien'
-    from import_data;
-    
-insert into _mention_bac (libelle_mention)
-  select distinct 'mention_tres_bien_fel'
-    from import_data;
-   
+insert into _mention_bac(libelle_mention)
+  values 
+  ('sans_information'),
+  ('sans_mention'),
+  ('mention_assez_bien'),
+  ('mention_bien'),
+  ('mention_tres_bien'),
+  ('mention_tres_bien_fel');
+
 
 /* _type_bac */
-
 insert into _type_bac (type_bac)
-  select distinct 'techno'
-    from import_data;
-    
-insert into _type_bac (type_bac)
-  select distinct 'general'
-    from import_data;
-    
-insert into _type_bac (type_bac)
-  select distinct 'pro'
-    from import_data;
-    
-insert into _type_bac (type_bac)
-  select distinct 'autres'
-    from import_data;
-    
+  values
+  ('techno'),
+  ('general'),
+  ('pro'),
+  ('autres');
+  
 /* _regroupement */
     
 insert into _regroupement (libelle_regroupement)
@@ -288,7 +270,6 @@ insert into  _admissions_selon_type_neo_bac (cod_aff_form, session_annee, type_b
     
 
 /* _effectif_selon_mention */
-
 insert into _effectif_selon_mention (cod_aff_form, session_annee, libelle_mention, effectif_admis_neo_bac_selon_mention) 
   select distinct cod_aff_form, session_annee, 'sans_information', effectif_admis_neo_bac_selon_mention_type_mention_sans_info
     from import_data
@@ -307,3 +288,6 @@ insert into _effectif_selon_mention (cod_aff_form, session_annee, libelle_mentio
   union
   select distinct cod_aff_form, session_annee, 'mention_tres_bien_fel', effectif_admis_neo_bac_selon_mention_type_mention_tres_bien_fel
     from import_data;
+    
+/* Suppression de la table temporaire import_data pour libérer de la place */
+drop table import_data;
